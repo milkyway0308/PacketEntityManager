@@ -41,26 +41,29 @@ public class PerWorldEntityTracker extends Thread implements EntityTracker {
                     synchronized (LOCK) {
                         tracer.remove(pe);
                     }
-                    if(displayer.contains(pe)){
+                    if (displayer.contains(pe)) {
                         EntityTrackingLocker lock = displayer.remove(pe);
-                        synchronized (lock.LOCK){
+                        synchronized (lock.LOCK) {
                             lock.getListPlayers().forEach(pe::hideEntity);
                         }
-
                     }
+                    continue;
                 }
                 EntityTrackingLocker lock = displayer.computeIfAbsent(pe, a -> new EntityTrackingLocker());
                 synchronized (lock.LOCK) {
                     lock.getListPlayers().removeIf(a -> !a.isOnline() || !a.getWorld().equals(w));
                     for (Player p : target) {
                         if (p.getLocation().distanceSquared(pe.getLocation()) < displayRange) {
-                            if (!lock.getListPlayers().contains(p)) {
+                            if (!lock.getListPlayers().contains(p)){
 //                                System.out.println("Wa, sans!");
                                 pe.showEntity(p);
                                 pe.updateEntity(p);
                                 lock.getListPlayers().add(p);
                             }
-                        } else lock.getListPlayers().remove(p);
+                        } else {
+                            lock.getListPlayers().remove(p);
+                            pe.hideEntity(p);
+                        }
                     }
                 }
             }
@@ -98,6 +101,7 @@ public class PerWorldEntityTracker extends Thread implements EntityTracker {
     public void broadcastUpdate(PacketEntity e) {
         EntityTrackingLocker locker = displayer.computeIfAbsent(e, a -> new EntityTrackingLocker());
         synchronized (locker.LOCK) {
+//            System.out.println("List updater: " + locker.getListPlayers());
             locker.getListPlayers().forEach(e::updateEntity);
         }
     }
