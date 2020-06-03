@@ -6,4 +6,8 @@ public abstract class DataWatcherKey<T> {
     public abstract T getWatcherObject(PacketDataWatcher pdw);
 
     public abstract int getBukkitDataWatcherOrdinal();
+
+    public abstract T getDefaultValue();
+
+    public abstract Class getAppliedClass();
 }

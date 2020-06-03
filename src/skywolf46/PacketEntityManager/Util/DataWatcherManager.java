@@ -74,9 +74,26 @@ public class DataWatcherManager {
                 displayPotionEffectWatcher = ReflectUtil.getField(c.getDeclaredField("g"));
                 isPotionEffectAmbientWatcher = ReflectUtil.getField(c.getDeclaredField("h"));
                 arrowCountWatcher = ReflectUtil.getField(c.getDeclaredField("br"));
+                System.out.println(getFlagWatcher().a());
+                System.out.println(isNoGravity.a());
+                System.out.println(customName.a());
+                System.out.println(customNameVisibleWatcher.a());
+                System.out.println(airTicksWatcher.a());
+                System.out.println(isSilientWatcher.a());
+                System.out.println(".");
+                System.out.println(handRaisedWatcher.a());
+                System.out.println(entityHealthWatcher.a());
+                System.out.println(displayPotionEffectWatcher.a());
+                System.out.println(isPotionEffectAmbientWatcher.a());
+                System.out.println(arrowCountWatcher.a());
+
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
+        }
+
+        public static void a(){
+
         }
 
         @Override
